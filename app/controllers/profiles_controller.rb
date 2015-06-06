@@ -1,4 +1,6 @@
 class ProfilesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :only_current_user
   def new
     # form where a user can fill out their own profile.
     @user = User.find(params[:user_id]) #this can find which user in logged in
@@ -19,10 +21,25 @@ class ProfilesController < ApplicationController
     @user = User.find(params[:user_id])
     @profile = @user.profile #pulling the contact with the information added previously
   end
+  def update
+    @user = User.find(params[:user_id]) #getting the user
+    @profile = @user.profile #using the profile from the user i got
+    if @profile.update_attributes(profile_params) #i already white listed this
+      flash[:success] = "Profile Updated."
+      redirect_to user_path(params[:user_id])
+    else
+      flash[:danger] = "Error"
+      render action: :edit
+    end
+  end
   private
   def profile_params
     #This method name has to match the parenthesis above
     #This is the white list
     params.require(:profile).permit(:first_name, :last_name, :job_title, :phone_number, :contact_email, :description)
+  end
+  def only_current_user
+    @user = User.find(params[:user_id])
+    redirect_to(root_url) unless @user == current_user
   end
 end
