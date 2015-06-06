@@ -8,7 +8,7 @@
           <div class='well'>
             <h2 class='center-text'> Your Profile </h2>
             <% if current_user.profile %>
-            <%= link_to "Edit your profile", "#",class: 'btn btn-default btn-lg btn-block' %>
+            <%= link_to "Edit your profile", edit_user_profile_path(user_id: current_user.id),class: 'btn btn-default btn-lg btn-block' %> <!--On the link there is a more verbose way to pass the parameter required -->
             <%= link_to "View your profile", user_path(current_user), class: 'btn btn-default btn-lg btn-block' %>
             <% else %>
             <p>Create your profile so that you can share your information with the community.</p>

@@ -15,6 +15,10 @@ class ProfilesController < ApplicationController
       render action: :new
     end
   end
+  def edit
+    @user = User.find(params[:user_id])
+    @profile = @user.profile #pulling the contact with the information added previously
+  end
   private
   def profile_params
     #This method name has to match the parenthesis above
